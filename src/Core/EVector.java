@@ -6,8 +6,8 @@ import java.util.Vector;
  * Created by matthewletter on 11/8/14.
  * modified vector to simplify input output
  */
-public class WeightVector extends Vector {
-    public WeightVector(){
+public class EVector extends Vector {
+    public EVector(){
         super();
     }
     /**
@@ -16,7 +16,7 @@ public class WeightVector extends Vector {
      * @param v2 other vector
      * @return euclidean distance as a double value
      */
-    public double euclideanDist(WeightVector v2){
+    public double euclideanDist(EVector v2){
         double sum = 0;
         double xiMinusYi;
         for (int x=0; x<size(); x++) {

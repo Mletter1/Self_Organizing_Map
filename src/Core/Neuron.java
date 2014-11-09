@@ -4,29 +4,31 @@ package Core;
  * Created by matthewletter on 11/8/14.
  */
 public class Neuron {
-    private WeightVector weights;
-    private int xp;
-    private int yp;
+    private EVector weights;
+    private int x1;
+    private int x2;
 
-    public Neuron(int numWeights) {
-        weights = new WeightVector();
+    public Neuron(int x1, int x2, int numWeights) {
+        this.x1 =x1;
+        this.x2 =x2;
+        weights = new EVector();
         for (int i=0; i<numWeights; i++) weights.addElement(Math.random()-0.5);//random weight between -.5 and .5
     }
 
     public void setX(int xpos) {
-        xp = xpos;
+        x1 = xpos;
     }
 
     public void setY(int ypos) {
-        yp = ypos;
+        x2 = ypos;
     }
 
-    public int getX() {
-        return xp;
+    public int getX1() {
+        return x1;
     }
 
-    public int getY() {
-        return yp;
+    public int getX2() {
+        return x2;
     }
     public void setWeight(int w, double value) {
         weights.setElementAt(value, w);
@@ -34,32 +36,34 @@ public class Neuron {
     public double getWeight(int w) {
         return (Double) weights.elementAt(w);
     }
-    public WeightVector getVector() {
+    public EVector getWeights() {
         return weights;
     }
 
     /** Computes the distance to another node.  Used for
      *  neighborhood determination.  Returns the SQUARE of the distance
      */
-    public double distanceTo(Neuron n2) {
-        int xDist, yDist;
-        xDist = getX() - n2.getX();
-        xDist *= xDist;
-        yDist = getY() - n2.getY();
-        yDist *= yDist;
+    public double distance(Neuron n2) {
+        int xDist;
+        int yDist;
+        xDist = (getX1() - n2.getX1())*(getX1() - n2.getX1());
+        yDist = (getX2() - n2.getX2())*(getX2() - n2.getX2());
         return Math.sqrt(xDist + yDist);
     }
 
-    public void adjustWeights(WeightVector input, double learningRate,
+    public void adjustWeights(EVector input, double learningRate,
                               double distanceFalloff)
     {
         double wt;
         double vw;
+        double change;
         for (int w=0; w<weights.size(); w++) {
-            System.err.println(w +" : "+ weights.size());
+            //System.err.println(w +" : "+ weights.size());
             wt = ((Double)weights.elementAt(w));
             vw = ((Double)input.elementAt(w));
-            wt += distanceFalloff * learningRate * (vw - wt);
+            change = distanceFalloff * learningRate * (vw - wt);
+            //System.err.println(vw - wt);
+            wt += change;
             weights.setElementAt(wt, w);
         }
     }
