@@ -11,10 +11,10 @@ import java.util.Collections;
 import java.util.Vector;
 
 public class App{
-    private final int M = 100;
+    private final int M = 40;
     private final int NUM_INPUT = 10;
     private static double ETA = 0.07;
-    private static int MAX_ITERATIONS = 1000;
+    private static int MAX_ITERATIONS = 10000;
 
     private TrainNetwork trainNetwork;
     private GUI gui;
@@ -40,17 +40,18 @@ public class App{
         trainNetwork.run();
     }
     public void outPut(){
-        double w1;
-        double w2;
+//        double w1;
+//        double w2;
+//
+//        for (int x=0; x<M; x++) {
+//            for (int y=0; y<M; y++) {
+//                w1 = ((Double)matrix.getNeuron(x,y).getWeights().elementAt(0)).doubleValue();
+//                w2 = ((Double)matrix.getNeuron(x,y).getWeights().elementAt(1)).doubleValue();
+//                //b = (float)((Double)lattice.getNode(x,y).getVector().elementAt(2)).doubleValue();
+//                System.out.println("w1="+w1+" w2="+w2);
+//            }
+//        }
         int dim = 800;
-        for (int x=0; x<M; x++) {
-            for (int y=0; y<M; y++) {
-                w1 = ((Double)matrix.getNeuron(x,y).getWeights().elementAt(0)).doubleValue();
-                w2 = ((Double)matrix.getNeuron(x,y).getWeights().elementAt(1)).doubleValue();
-                //b = (float)((Double)lattice.getNode(x,y).getVector().elementAt(2)).doubleValue();
-                System.out.println("w1="+w1+" w2="+w2);
-            }
-        }
         JFrame mainFrame = new JFrame("out");
         JPanel shapePanel = new GUI(matrix,dim,M);
         shapePanel.setBackground(Color.WHITE);

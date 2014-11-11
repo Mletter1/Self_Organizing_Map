@@ -8,8 +8,8 @@ import java.util.Vector;
  */
 public class TrainNetwork{
     // These constants can be changed to play with the learning algorithm
-    private static double ETA;
-    private static int MAX_ITERATIONS;
+    private double ETA;
+    private int MAX_ITERATIONS;
     private double sigma0;
     private double tao;
 
@@ -44,20 +44,25 @@ public class TrainNetwork{
 
     public void run() {
         int xstart, ystart, xend, yend;
-        double dist, dFalloff;
+        double dist;
+        double rad = 0;
+        double sumErr=0;
+        double magChange=0;
         // These two values are used in the training algorithm
-        sigma0 = Math.max(neuronMatrix.getM(), neuronMatrix.getM())/2;
+        sigma0 = neuronMatrix.getM()/2;
         tao = MAX_ITERATIONS / Math.log(sigma0);
         running = true;
         int iteration = 0;
-        double nbhRadius;
+        double nbhRadius=0;
         Neuron bmu = null;
         Neuron temp = null;
         EVector curInput = null;
         double learningRate = ETA;
 
         while (iteration < MAX_ITERATIONS && running) {
+            sumErr=0;
             nbhRadius = getNeighborhoodRadius(iteration);
+            //System.err.println("Nrad="+nbhRadius+" rad="+rad);
             // For each of the input vectors, look for the best matching
             // unit, then adjust the weights for the BMU's neighborhood
             for (int i=0; i<inputs.size(); i++) {
@@ -82,11 +87,16 @@ public class TrainNetwork{
                         temp = neuronMatrix.getNeuron(x, y);
                         dist = bmu.distance(temp);
                         if (dist <= (nbhRadius * nbhRadius)) {
-                            dFalloff = neighborhoodFunction(dist, nbhRadius);
-                            temp.adjustWeights(curInput, learningRate, dFalloff);
+                            rad = neighborhoodFunction(dist, nbhRadius);
+                            sumErr += temp.adjustWeights(curInput, learningRate, rad);
                         }
                     }
                 }
+            }
+            magChange=Math.sqrt((sumErr*sumErr)/inputs.size());
+            System.err.println(magChange);
+            if(magChange<0.000001){
+                running = false;
             }
             iteration++;
             learningRate = ETA * Math.exp(-(double)iteration/ MAX_ITERATIONS);

@@ -51,20 +51,21 @@ public class Neuron {
         return Math.sqrt(xDist + yDist);
     }
 
-    public void adjustWeights(EVector input, double learningRate,
-                              double distanceFalloff)
+    public double adjustWeights(EVector input, double learningRate,
+                              double rad)
     {
         double wt;
         double vw;
-        double change;
+        double change = 0;
         for (int w=0; w<weights.size(); w++) {
             //System.err.println(w +" : "+ weights.size());
             wt = ((Double)weights.elementAt(w));
             vw = ((Double)input.elementAt(w));
-            change = distanceFalloff * learningRate * (vw - wt);
+            change += rad * learningRate * (vw - wt);
             //System.err.println(vw - wt);
-            wt += change;
+            wt += rad * learningRate * (vw - wt);;
             weights.setElementAt(wt, w);
         }
+        return change/weights.size();
     }
 }
