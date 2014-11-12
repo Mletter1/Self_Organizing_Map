@@ -1,6 +1,11 @@
 package Core;
 
 
+import app.App;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -42,7 +47,7 @@ public class TrainNetwork{
         inputs = in;
     }
 
-    public void run() {
+    public void run(App app) {
         int xstart, ystart, xend, yend;
         double dist;
         double rad = 0;
@@ -58,7 +63,8 @@ public class TrainNetwork{
         Neuron temp = null;
         EVector curInput = null;
         double learningRate = ETA;
-
+        double time = System.currentTimeMillis();
+        Random myRandom = new Random(System.nanoTime());
         while (iteration < MAX_ITERATIONS && running) {
             sumErr=0;
             nbhRadius = getNeighborhoodRadius(iteration);
@@ -66,7 +72,7 @@ public class TrainNetwork{
             // For each of the input vectors, look for the best matching
             // unit, then adjust the weights for the BMU's neighborhood
             for (int i=0; i<inputs.size(); i++) {
-                curInput = (EVector)inputs.elementAt(i);
+                curInput = (EVector)inputs.elementAt(myRandom.nextInt(inputs.size()));
                 bmu = neuronMatrix.getBMU(curInput);
                 // We have the BMU for this input now, so adjust everything in
                 // it's neighborhood
@@ -94,14 +100,21 @@ public class TrainNetwork{
                 }
             }
             magChange=Math.sqrt((sumErr*sumErr)/inputs.size());
-            System.err.println(magChange);
-            if(magChange<0.000001){
+            //System.err.println(magChange);
+
+            if(magChange<0.0000001){
                 running = false;
+            }
+            if(iteration%2==0){
+                //System.err.println("change:"+magChange+" iteration:"+iteration);
+                app.updateView(neuronMatrix, iteration, magChange);
             }
             iteration++;
             learningRate = ETA * Math.exp(-(double)iteration/ MAX_ITERATIONS);
         }
+
         running = false;
+        System.out.println("ran in :" + ((System.currentTimeMillis() - time) / 1000) + " seconds");
         System.err.println("done"+iteration);
     }
 }
