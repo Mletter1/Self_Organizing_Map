@@ -18,10 +18,10 @@ public class App{
      * vary the next 4 variables for study
      *
      ****************************************/
-    private final int M = 50;
+    private final int M = 10;
     private final int NUM_INPUT = 1600;
-    private static double ETA = 0.01;
-    private static int MAX_ITERATIONS = 1000;
+    private static double ETA = 0.001;
+    private static int MAX_ITERATIONS = 1;
 
     private TrainNetwork trainNetwork;
 
@@ -37,6 +37,9 @@ public class App{
     Vector<EVector> dataVectors;
     Vector<EVector> inputVectors = new Vector<EVector>();
 
+    /**
+     * everything we need to build and run an som network
+     */
     public App() {
         matrix = new NeuronMatrix(M);
 
@@ -53,9 +56,14 @@ public class App{
             inputVectors.add(dataVectors.get(i));
         }
         trainNetwork.setTraining(matrix, inputVectors);
-        trainNetwork.run(this);
+        trainNetwork.startTraining(this);
 
     }
+
+    /**
+     * visualize the data
+     * @param m
+     */
     public void outPut(NeuronMatrix m){
         comp = new LinesComponent(m,M,dataVectors);
         testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -80,9 +88,21 @@ public class App{
         testFrame.pack();
         testFrame.setVisible(true);
     }
+
+    /**
+     * update the next frame
+     * @param m
+     * @param iteration
+     * @param magChange
+     */
     public void updateView(NeuronMatrix m, int iteration, double magChange){
         comp.updateMatrix(m,iteration,magChange);
     }
+
+    /**
+     * builds the app for the som network
+     * @param args
+     */
     public static void main(String args[]) {
         App app = new App();
     }

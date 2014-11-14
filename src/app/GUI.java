@@ -28,8 +28,8 @@ public class GUI extends JPanel{
         float b;
         for(int x = 0;x < M;x ++){
             for (int y = 0; y < M; y++) {
-                r = (float)((Double)matrix.getNeuron(x, y).getWeights().elementAt(0)).doubleValue();
-                gr = (float)((Double)matrix.getNeuron(x, y).getWeights().elementAt(1)).doubleValue();
+                r = (float)((Double)matrix.getNeuron(x, y).getW().elementAt(0)).doubleValue();
+                gr = (float)((Double)matrix.getNeuron(x, y).getW().elementAt(1)).doubleValue();
                 r = (float)Math.sqrt(r*r)/2;
                 gr = (float)Math.sqrt(gr*gr)/2;
                 b = 0;

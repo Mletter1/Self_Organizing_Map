@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.util.LinkedList;
 import java.util.Vector;
 
 
@@ -34,6 +33,10 @@ public class LinesComponent extends JComponent{
         }
     }
 
+    /**
+     * stop/start the visual
+     * @param s
+     */
     public void stopStart(boolean s){
         stopFlag = s;
     }
@@ -64,65 +67,64 @@ public class LinesComponent extends JComponent{
         for (int i = 0; i < M; i++) {
             for (int j = 0; j < M; j++) {
                 g.setColor(Color.BLACK);
-                x = (((Double) matrix.getNeuron(i, j).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                y = (((Double) matrix.getNeuron(i, j).getWeights().elementAt(1)).doubleValue() + offset) * mul;
+                x = (((Double) matrix.getNeuron(i, j).getW().elementAt(0)).doubleValue() + offset) * mul;
+                y = (((Double) matrix.getNeuron(i, j).getW().elementAt(1)).doubleValue() + offset) * mul;
                 if (i > 0 && i < M - 1 && j > 0 && j < M - 1) {
-                    x1 = (((Double) matrix.getNeuron(i - 1, j).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y1 = (((Double) matrix.getNeuron(i - 1, j).getWeights().elementAt(1)).doubleValue() + offset) * mul;
-                    x2 = (((Double) matrix.getNeuron(i + 1, j).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y2 = (((Double) matrix.getNeuron(i + 1, j).getWeights().elementAt(1)).doubleValue() + offset) * mul;
-                    x3 = (((Double) matrix.getNeuron(i, j - 1).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y3 = (((Double) matrix.getNeuron(i, j - 1).getWeights().elementAt(1)).doubleValue() + offset) * mul;
-                    x4 = (((Double) matrix.getNeuron(i, j + 1).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y4 = (((Double) matrix.getNeuron(i, j + 1).getWeights().elementAt(1)).doubleValue() + offset) * mul;
+                    x1 = (((Double) matrix.getNeuron(i - 1, j).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y1 = (((Double) matrix.getNeuron(i - 1, j).getW().elementAt(1)).doubleValue() + offset) * mul;
+                    x2 = (((Double) matrix.getNeuron(i + 1, j).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y2 = (((Double) matrix.getNeuron(i + 1, j).getW().elementAt(1)).doubleValue() + offset) * mul;
+                    x3 = (((Double) matrix.getNeuron(i, j - 1).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y3 = (((Double) matrix.getNeuron(i, j - 1).getW().elementAt(1)).doubleValue() + offset) * mul;
+                    x4 = (((Double) matrix.getNeuron(i, j + 1).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y4 = (((Double) matrix.getNeuron(i, j + 1).getW().elementAt(1)).doubleValue() + offset) * mul;
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x1, y1));
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x2, y2));
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x3, y3));
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x4, y4));
                 } else if (i == 0 && j > 0 && j < M - 1) {
-                    x2 = (((Double) matrix.getNeuron(i + 1, j).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y2 = (((Double) matrix.getNeuron(i + 1, j).getWeights().elementAt(1)).doubleValue() + offset) * mul;
-                    x3 = (((Double) matrix.getNeuron(i, j - 1).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y3 = (((Double) matrix.getNeuron(i, j - 1).getWeights().elementAt(1)).doubleValue() + offset) * mul;
-                    x4 = (((Double) matrix.getNeuron(i, j + 1).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y4 = (((Double) matrix.getNeuron(i, j + 1).getWeights().elementAt(1)).doubleValue() + offset) * mul;
+                    x2 = (((Double) matrix.getNeuron(i + 1, j).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y2 = (((Double) matrix.getNeuron(i + 1, j).getW().elementAt(1)).doubleValue() + offset) * mul;
+                    x3 = (((Double) matrix.getNeuron(i, j - 1).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y3 = (((Double) matrix.getNeuron(i, j - 1).getW().elementAt(1)).doubleValue() + offset) * mul;
+                    x4 = (((Double) matrix.getNeuron(i, j + 1).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y4 = (((Double) matrix.getNeuron(i, j + 1).getW().elementAt(1)).doubleValue() + offset) * mul;
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x2, y2));
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x3, y3));
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x4, y4));
                 } else if (i == M - 1 && j > 0 && j < M - 1) {
-                    x1 = (((Double) matrix.getNeuron(i - 1, j).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y1 = (((Double) matrix.getNeuron(i - 1, j).getWeights().elementAt(1)).doubleValue() + offset) * mul;
-                    x3 = (((Double) matrix.getNeuron(i, j - 1).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y3 = (((Double) matrix.getNeuron(i, j - 1).getWeights().elementAt(1)).doubleValue() + offset) * mul;
-                    x4 = (((Double) matrix.getNeuron(i, j + 1).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y4 = (((Double) matrix.getNeuron(i, j + 1).getWeights().elementAt(1)).doubleValue() + offset) * mul;
+                    x1 = (((Double) matrix.getNeuron(i - 1, j).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y1 = (((Double) matrix.getNeuron(i - 1, j).getW().elementAt(1)).doubleValue() + offset) * mul;
+                    x3 = (((Double) matrix.getNeuron(i, j - 1).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y3 = (((Double) matrix.getNeuron(i, j - 1).getW().elementAt(1)).doubleValue() + offset) * mul;
+                    x4 = (((Double) matrix.getNeuron(i, j + 1).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y4 = (((Double) matrix.getNeuron(i, j + 1).getW().elementAt(1)).doubleValue() + offset) * mul;
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x3, y3));
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x4, y4));
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x1, y1));
                 } else if (j == 0 && i > 0 && i < M - 1) {
-                    x1 = (((Double) matrix.getNeuron(i - 1, j).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y1 = (((Double) matrix.getNeuron(i - 1, j).getWeights().elementAt(1)).doubleValue() + offset) * mul;
-                    x2 = (((Double) matrix.getNeuron(i + 1, j).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y2 = (((Double) matrix.getNeuron(i + 1, j).getWeights().elementAt(1)).doubleValue() + offset) * mul;
-                    x4 = (((Double) matrix.getNeuron(i, j + 1).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y4 = (((Double) matrix.getNeuron(i, j + 1).getWeights().elementAt(1)).doubleValue() + offset) * mul;
+                    x1 = (((Double) matrix.getNeuron(i - 1, j).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y1 = (((Double) matrix.getNeuron(i - 1, j).getW().elementAt(1)).doubleValue() + offset) * mul;
+                    x2 = (((Double) matrix.getNeuron(i + 1, j).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y2 = (((Double) matrix.getNeuron(i + 1, j).getW().elementAt(1)).doubleValue() + offset) * mul;
+                    x4 = (((Double) matrix.getNeuron(i, j + 1).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y4 = (((Double) matrix.getNeuron(i, j + 1).getW().elementAt(1)).doubleValue() + offset) * mul;
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x1, y1));
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x2, y2));
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x4, y4));
                 } else if (j == M - 1 && i > 0 && i < M - 1) {
-                    x1 = (((Double) matrix.getNeuron(i - 1, j).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y1 = (((Double) matrix.getNeuron(i - 1, j).getWeights().elementAt(1)).doubleValue() + offset) * mul;
-                    x2 = (((Double) matrix.getNeuron(i + 1, j).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y2 = (((Double) matrix.getNeuron(i + 1, j).getWeights().elementAt(1)).doubleValue() + offset) * mul;
-                    x3 = (((Double) matrix.getNeuron(i, j - 1).getWeights().elementAt(0)).doubleValue() + offset) * mul;
-                    y3 = (((Double) matrix.getNeuron(i, j - 1).getWeights().elementAt(1)).doubleValue() + offset) * mul;
+                    x1 = (((Double) matrix.getNeuron(i - 1, j).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y1 = (((Double) matrix.getNeuron(i - 1, j).getW().elementAt(1)).doubleValue() + offset) * mul;
+                    x2 = (((Double) matrix.getNeuron(i + 1, j).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y2 = (((Double) matrix.getNeuron(i + 1, j).getW().elementAt(1)).doubleValue() + offset) * mul;
+                    x3 = (((Double) matrix.getNeuron(i, j - 1).getW().elementAt(0)).doubleValue() + offset) * mul;
+                    y3 = (((Double) matrix.getNeuron(i, j - 1).getW().elementAt(1)).doubleValue() + offset) * mul;
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x1, y1));
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x2, y2));
                     ((Graphics2D) g).draw(new Line2D.Double(x, y, x3, y3));
                 }
                 g.setColor(Color.BLACK);
                 ((Graphics2D) g).fill(new Ellipse2D.Double(x, y, 5, 5));
-                //System.err.println(x+" : "+y);
             }
         }
     }

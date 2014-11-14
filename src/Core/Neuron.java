@@ -8,6 +8,12 @@ public class Neuron {
     private int x1;
     private int x2;
 
+    /**
+     * everything we need to make a neuron
+     * @param x1
+     * @param x2
+     * @param numWeights
+     */
     public Neuron(int x1, int x2, int numWeights) {
         this.x1 =x1;
         this.x2 =x2;
@@ -15,51 +21,61 @@ public class Neuron {
         for (int i=0; i<numWeights; i++) weights.addElement(Math.random()-0.5);//random weight between -.5 and .5
     }
 
-    public void setX(int xpos) {
-        x1 = xpos;
-    }
-
-    public void setY(int ypos) {
-        x2 = ypos;
-    }
-
+    /**
+     * get X1
+     * @return
+     */
     public int getX1() {
         return x1;
     }
 
+    /**
+     * get X2
+     * @return
+     */
     public int getX2() {
         return x2;
     }
-    public void setWeight(int w, double value) {
-        weights.setElementAt(value, w);
-    }
-    public double getWeight(int w) {
-        return (Double) weights.elementAt(w);
-    }
-    public EVector getWeights() {
+
+    /**
+     * get weight vector
+     * @return
+     */
+    public EVector getW() {
         return weights;
     }
 
+    /**
+     * get the distance between two neurons
+     * @param n2
+     * @return
+     */
     public double distance(Neuron n2) {
-        int xDist;
-        int yDist;
-        xDist = (getX1() - n2.getX1())*(getX1() - n2.getX1());
-        yDist = (getX2() - n2.getX2())*(getX2() - n2.getX2());
-        return Math.sqrt(xDist + yDist);
+        int x1D;
+        int x2D;
+        x1D = (getX1() - n2.getX1())*(getX1() - n2.getX1());
+        x2D = (getX2() - n2.getX2())*(getX2() - n2.getX2());
+        return Math.sqrt(x1D + x2D);
     }
 
+    /**
+     * adjust neuron weight based on a given input
+     * @param input
+     * @param learningRate
+     * @param rad
+     * @return
+     */
     public double adjustWeights(EVector input, double learningRate,
-                              double rad)
-    {
-        double wt;
-        double vw;
+                              double rad){
+        double t = 0;
+        double v = 0;
         double change = 0;
         for (int w=0; w<weights.size(); w++) {
-            wt = ((Double)weights.elementAt(w));
-            vw = ((Double)input.elementAt(w));
-            change += rad * learningRate * (vw - wt);
-            wt += rad * learningRate * (vw - wt);;
-            weights.setElementAt(wt, w);
+            t = (Double)weights.elementAt(w);
+            v = (Double)input.elementAt(w);
+            change += rad * learningRate * (v - t);
+            t += rad * learningRate * (v - t);
+            weights.setElementAt(t, w);
         }
         return change/weights.size();
     }

@@ -17,27 +17,42 @@ public class NeuronMatrix {
         }
     }
 
+    /**
+     * return a 2d array of the lattice of SOM neurons
+     * @param x
+     * @param y
+     * @return
+     */
     public Neuron getNeuron(int x, int y) {
         return matrix[x][y];
     }
 
+    /**
+     * return M of the MxM lattice
+     * @return
+     */
     public int getM(){
-          return m;
-      }
+        return m;
+    }
 
-    public Neuron getBMU(EVector inputVector) {
-        Neuron bmu = matrix[0][0];
-        double bestDist = inputVector.euclideanDist(bmu.getWeights());
-        double curDist;
-        for (int x=0; x<m; x++) {
-            for (int y=0; y<m; y++) {
-                curDist = inputVector.euclideanDist(matrix[x][y].getWeights());
+    /**
+     * find out who is the winner of the winner take all
+     * @param in
+     * @return
+     */
+    public Neuron getWinnerTakeAll(EVector in) {
+        Neuron winningNeuron = matrix[0][0];
+        double bestDist = in.eDistance(winningNeuron.getW());
+        double curDist=0;
+        for(Neuron[] nL: matrix){
+            for(Neuron n : nL){
+                curDist = in.eDistance(n.getW());
                 if (curDist < bestDist) {
-                    bmu = matrix[x][y];
+                    winningNeuron = n;
                     bestDist = curDist;
                 }
             }
         }
-        return bmu;
+        return winningNeuron;
     }
 }

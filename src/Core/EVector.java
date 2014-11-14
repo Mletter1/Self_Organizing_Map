@@ -7,17 +7,14 @@ import java.util.Vector;
  * modified vector to simplify input output
  */
 public class EVector extends Vector {
-    public EVector(){
-        super();
-    }
-    public double euclideanDist(EVector v2){
-        double sum = 0;
-        double xiMinusYi;
+    public double eDistance(EVector v2){
+        double totalDis = 0;
+        double dis;
         for (int x=0; x<size(); x++) {
-            xiMinusYi = ((Double)elementAt(x)).doubleValue() - ((Double)v2.elementAt(x)).doubleValue();
-            xiMinusYi = xiMinusYi*xiMinusYi;
-            sum = sum + xiMinusYi;
+            dis = (Double) elementAt(x) - (Double) v2.elementAt(x);
+            dis = dis*dis;
+            totalDis += dis;
         }
-        return sum;
+        return totalDis;
     }
 }
