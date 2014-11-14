@@ -18,13 +18,12 @@ public class App{
      * vary the next 4 variables for study
      *
      ****************************************/
-    private final int M = 15;
+    private final int M = 50;
     private final int NUM_INPUT = 1600;
     private static double ETA = 0.01;
-    private static int MAX_ITERATIONS = 10000;
+    private static int MAX_ITERATIONS = 1000;
 
     private TrainNetwork trainNetwork;
-    private GUI gui;
 
     //gui
     JFrame testFrame = new JFrame();
@@ -58,31 +57,6 @@ public class App{
 
     }
     public void outPut(NeuronMatrix m){
-//        double w1;
-//        double w2;
-//
-//        for (int x=0; x<M; x++) {
-//            for (int y=0; y<M; y++) {
-//                w1 = ((Double)matrix.getNeuron(x,y).getWeights().elementAt(0)).doubleValue();
-//                w2 = ((Double)matrix.getNeuron(x,y).getWeights().elementAt(1)).doubleValue();
-//                //b = (float)((Double)lattice.getNode(x,y).getVector().elementAt(2)).doubleValue();
-//                System.out.println("w1="+w1+" w2="+w2);
-//            }
-//        }
-//        int dim = 800;
-//        JFrame mainFrame = new JFrame("out");
-//        JPanel shapePanel = new GUI(matrix,dim,M);
-//        shapePanel.setBackground(Color.WHITE);
-//        shapePanel.setPreferredSize(new Dimension(dim, dim));
-//        // add the JPanel to the pane
-//        mainFrame.getContentPane().add(shapePanel, BorderLayout.CENTER);
-//        // clean up
-//        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        mainFrame.pack();
-//        mainFrame.setResizable(true);
-//        mainFrame.setVisible(true);
-
-        //other
         comp = new LinesComponent(m,M,dataVectors);
         testFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         comp.setPreferredSize(new Dimension(800, 800));
@@ -98,7 +72,6 @@ public class App{
             }
         });
         clearButton.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 comp.stopStart(true);
@@ -111,8 +84,6 @@ public class App{
         comp.updateMatrix(m,iteration,magChange);
     }
     public static void main(String args[]) {
-
         App app = new App();
-        //app.outPut();
     }
 }

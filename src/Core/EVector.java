@@ -10,12 +10,6 @@ public class EVector extends Vector {
     public EVector(){
         super();
     }
-    /**
-     * calucalate euclidean distance between this vector and a given vecotr of the
-     * same dimentions
-     * @param v2 other vector
-     * @return euclidean distance as a double value
-     */
     public double euclideanDist(EVector v2){
         double sum = 0;
         double xiMinusYi;

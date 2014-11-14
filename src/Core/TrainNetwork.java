@@ -12,7 +12,6 @@ import java.util.Vector;
  * Created by matthewletter on 11/8/14.
  */
 public class TrainNetwork{
-    // These constants can be changed to play with the learning algorithm
     private double ETA;
     private int MAX_ITERATIONS;
     private double sigma0;
@@ -24,7 +23,6 @@ public class TrainNetwork{
     private static boolean running;
     private Thread runner;
 
-    /** Creates a new instance of SOMTrainer */
     public TrainNetwork(double eta, int max) {
         this.ETA = eta;
         this.MAX_ITERATIONS = max;
@@ -40,7 +38,6 @@ public class TrainNetwork{
         return Math.exp(-(distSq)/(2 * radiusSq));
     }
 
-    // Train the given neuronMatrix based on a vector of input vectors
     public void setTraining(NeuronMatrix latToTrain, Vector in)
     {
         neuronMatrix = latToTrain;
@@ -53,7 +50,6 @@ public class TrainNetwork{
         double rad = 0;
         double sumErr=0;
         double magChange=0;
-        // These two values are used in the training algorithm
         sigma0 = neuronMatrix.getM()/2;
         tao = MAX_ITERATIONS / Math.log(sigma0);
         running = true;
@@ -65,20 +61,12 @@ public class TrainNetwork{
         double learningRate = ETA;
         double time = System.currentTimeMillis();
         Random myRandom = new Random(System.nanoTime());
-        while (iteration < MAX_ITERATIONS && running) {
+        while (iteration < 10000 && running) {
             sumErr=0;
             nbhRadius = getNeighborhoodRadius(iteration);
-            //System.err.println("Nrad="+nbhRadius+" rad="+rad);
-            // For each of the input vectors, look for the best matching
-            // unit, then adjust the weights for the BMU's neighborhood
             for (int i=0; i<inputs.size(); i++) {
                 curInput = (EVector)inputs.elementAt(myRandom.nextInt(inputs.size()));
                 bmu = neuronMatrix.getBMU(curInput);
-                // We have the BMU for this input now, so adjust everything in
-                // it's neighborhood
-
-                // Optimization:  Only go through the X/Y values that fall within
-                // the radius
                 xstart = (int)(bmu.getX1() - nbhRadius - 1);
                 ystart = (int)(bmu.getX2() - nbhRadius - 1);
                 xend = (int)(xstart + (nbhRadius * 2) + 1);
@@ -100,13 +88,13 @@ public class TrainNetwork{
                 }
             }
             magChange=Math.sqrt((sumErr*sumErr)/inputs.size());
-            //System.err.println(magChange);
+            System.err.println(magChange);
 
-            if(magChange<0.0000001){
+            if(magChange<0.00001){
                 running = false;
             }
             if(iteration%2==0){
-                //System.err.println("change:"+magChange+" iteration:"+iteration);
+                //System.err.println(magChange);
                 app.updateView(neuronMatrix, iteration, magChange);
             }
             iteration++;

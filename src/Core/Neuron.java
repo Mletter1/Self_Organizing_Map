@@ -40,9 +40,6 @@ public class Neuron {
         return weights;
     }
 
-    /** Computes the distance to another node.  Used for
-     *  neighborhood determination.  Returns the SQUARE of the distance
-     */
     public double distance(Neuron n2) {
         int xDist;
         int yDist;
@@ -58,11 +55,9 @@ public class Neuron {
         double vw;
         double change = 0;
         for (int w=0; w<weights.size(); w++) {
-            //System.err.println(w +" : "+ weights.size());
             wt = ((Double)weights.elementAt(w));
             vw = ((Double)input.elementAt(w));
             change += rad * learningRate * (vw - wt);
-            //System.err.println(vw - wt);
             wt += rad * learningRate * (vw - wt);;
             weights.setElementAt(wt, w);
         }
